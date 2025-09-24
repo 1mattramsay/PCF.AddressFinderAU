@@ -117,17 +117,12 @@ export class AddressFinderAU implements ComponentFramework.StandardControl<IInpu
 			'AU',
 			{
                 "address_metadata_params": {
-                    "gps": "1"
+ //                 "gps": "1"
                 },
                 "address_params": {
-		    "au_paf": "1"
-                },
-                "show_locations": true,
-                "location_params": {
-                    "location_types": "street, locality, state"
-                },
-				"max_results": "15",
-				"byline": false
+		    		"source": "gnaf,paf"
+                }
+				"max_results": "8"
             }
 		);
 		this.widget.on('result:select', (fullAddress: any, metaData: any) => {
