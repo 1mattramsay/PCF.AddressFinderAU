@@ -115,12 +115,16 @@ export class AddressFinderAU implements ComponentFramework.StandardControl<IInpu
 			searchField,
 			addressFinderKey,
 			'AU',
-            {
-                "address_params": {
-                    "source": "gnaf,paf"
-                },
-                "max_results": "7"
-            }
+	          {
+	            address_params: {
+	              source: "gnaf"
+//				  source: "gnaf,paf"
+	            },
+	            address_metadata_params: {
+	              gps: "1"
+	            },
+            	max_results: 8
+	          }
 		);
 		this.widget.on('result:select', (fullAddress: any, metaData: any) => {
 			//debugger;
