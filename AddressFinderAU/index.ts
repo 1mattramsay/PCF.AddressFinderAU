@@ -63,7 +63,7 @@ export class AddressFinderAU implements ComponentFramework.StandardControl<IInpu
 		this.inputElement.setAttribute("style", "width:95%;");
 		this.inputElement.addEventListener("input",this._refreshData);
 		this._addressfinderScript = document.createElement("script");
-		this._addressfinderScript.setAttribute("src", "https://api.addressfinder.io/assets/v3b/widget.js");
+		this._addressfinderScript.setAttribute("src", "https://api.addressfinder.io/assets/v3/widget.js");
 		this._container.appendChild(this._addressfinderScript);
 		this._container.appendChild(this.inputElement);		
 		container = this._container;
@@ -115,19 +115,16 @@ export class AddressFinderAU implements ComponentFramework.StandardControl<IInpu
 			searchField,
 			addressFinderKey,
 			'AU',
-			{
-                "address_metadata_params": {
-                    "gps": "1"
-                },
-                "address_params": {
-                },
-                "show_locations": true,
-                "location_params": {
-                    "location_types": "street, locality, state"
-                },
-				"max_results": "15",
-				"byline": false
-            }
+	          {
+	            address_params: {
+	              source: "gnaf"
+//				  source: "gnaf,paf"
+	            },
+	            address_metadata_params: {
+	              gps: "1"
+	            },
+            	max_results: 8
+	          }
 		);
 		this.widget.on('result:select', (fullAddress: any, metaData: any) => {
 			//debugger;
