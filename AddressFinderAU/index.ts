@@ -1,15 +1,17 @@
-import {IInputs, IOutputs} from "./generated/ManifestTypes";
+import { IInputs, IOutputs } from "./generated/ManifestTypes";
 
-export class AddressFinderAU implements ComponentFramework.StandardControl<IInputs, IOutputs> {
+export class AddressFinderAU
+	implements ComponentFramework.StandardControl<IInputs, IOutputs>
+{
 	// Reference to ComponentFramework Context object
 	private _context: ComponentFramework.Context<IInputs>;
 
-	// PCF framework delegate which will be assigned to this object which would be called whenever any update happens. 
+	// PCF framework delegate which will be assigned to this object which would be called whenever any update happens.
 	private _notifyOutputChanged: () => void;
 
 	private inputElement: HTMLInputElement;
 
-	private _addressfinderScript : HTMLScriptElement;
+	private _addressfinderScript: HTMLScriptElement;
 
 	private _address_fullname: string;
 
@@ -35,9 +37,8 @@ export class AddressFinderAU implements ComponentFramework.StandardControl<IInpu
 
 	private _domId: string;
 
-	constructor()
-	{
-		this.AddressFinder = require('./Widget');
+	constructor() {
+		this.AddressFinder = require("./Widget");
 	}
 
 	/**
@@ -48,33 +49,41 @@ export class AddressFinderAU implements ComponentFramework.StandardControl<IInpu
 	 * @param state A piece of data that persists in one session for a single user. Can be set at any point in a controls life cycle by calling 'setControlState' in the Mode interface.
 	 * @param container If a control is marked control-type='standard', it will receive an empty div element within which it can render its content.
 	 */
-	public init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container:HTMLDivElement)
-	{
+	public init(
+		context: ComponentFramework.Context<IInputs>,
+		notifyOutputChanged: () => void,
+		state: ComponentFramework.Dictionary,
+		container: HTMLDivElement
+	) {
 		// Add control initialization code
 		this._context = context;
 		this._notifyOutputChanged = notifyOutputChanged;
 		this._container = container;
-		this._address_fullname = this._context.parameters.address_fullname.raw || "";
+		this._address_fullname =
+			this._context.parameters.address_fullname.raw || "";
 		this._refreshData = this.refreshData.bind(this);
 		this._domId = Math.random().toString(10);
 		this.inputElement = document.createElement("input");
-		this.inputElement.setAttribute("id", "search_field"+this._domId);
+		this.inputElement.setAttribute("id", "search_field" + this._domId);
 		this.inputElement.setAttribute("type", "text");
 		this.inputElement.setAttribute("style", "width:95%;");
-		this.inputElement.addEventListener("input",this._refreshData);
+		this.inputElement.addEventListener("input", this._refreshData);
 		this._addressfinderScript = document.createElement("script");
-		this._addressfinderScript.setAttribute("src", "https://api.addressfinder.io/assets/v3b/widget.js");
+		this._addressfinderScript.setAttribute(
+			"src",
+			"https://api.addressfinder.io/assets/v3/widget.js"
+		);
 		this._container.appendChild(this._addressfinderScript);
-		this._container.appendChild(this.inputElement);		
+		this._container.appendChild(this.inputElement);
 		container = this._container;
 		// Add control initialization code
-		this.GetAddressFinderKeyandContinueCallBack(this._context.parameters.afKey.raw);
+		this.GetAddressFinderKeyandContinueCallBack(
+			this._context.parameters.afKey.raw
+		);
 	}
 
-	public refreshData(evt: Event): void
-	{
-		if(this.inputElement.value.length==0)
-		{
+	public refreshData(evt: Event): void {
+		if (this.inputElement.value.length == 0) {
 			this._address_fullname = "";
 			this._notifyOutputChanged();
 		}
@@ -84,55 +93,48 @@ export class AddressFinderAU implements ComponentFramework.StandardControl<IInpu
 	 * Called when any value in the property bag has changed. This includes field values, data-sets, global values such as container height and width, offline status, control metadata values such as label, visible, etc.
 	 * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to names defined in the manifest, as well as utility functions
 	 */
-	public updateView(context: ComponentFramework.Context<IInputs>): void
-	{
+	public updateView(context: ComponentFramework.Context<IInputs>): void {
 		// Add code to update control view
 		// Add code to update control view
 		this._context = context;
 		this.inputElement.value = this._address_fullname;
 	}
 
-	/** 
-	 * It is called by the framework prior to a control receiving new data. 
+	/**
+	 * It is called by the framework prior to a control receiving new data.
 	 * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as “bound” or “output”
 	 */
-	public getOutputs(): IOutputs
-	{
+	public getOutputs(): IOutputs {
 		return {
 			address_fullname: this._address_fullname,
 			address_line_1: this._address_line_1,
 			address_line_2: this._address_line_2,
-			suburb:this._suburb,
-			state:this._state,
-			postcode:this._postcode,
-			country:this._country
+			suburb: this._suburb,
+			state: this._state,
+			postcode: this._postcode,
+			country: this._country,
 		};
 	}
 
 	loadWidget = (addressFinderKey: string | null) => {
-		var searchField = document.getElementById("search_field"+ this._domId);
+		var searchField = document.getElementById("search_field" + this._domId);
 		this.widget = new this.AddressFinder.Widget(
 			searchField,
 			addressFinderKey,
-			'AU',
+			"AU",
 			{
-                "address_metadata_params": {
-                    "gps": "1"
-                },
-                "address_params": {
-                },
-                "show_locations": true,
-                "location_params": {
-                    "location_types": "street, locality, state"
-                },
-				"max_results": "15",
-				"byline": false
-            }
+				address_params: {
+					source: "gnaf", // or "gnaf,paf" to search paf as well
+				},
+				address_metadata_params: {
+					gps: "1",
+				},
+				max_results: 8,
+				ca: "MD365/1.1.0",
+			}
 		);
-		this.widget.on('result:select', (fullAddress: any, metaData: any) => {
-			//debugger;
+		this.widget.on("result:select", (fullAddress: any, metaData: any) => {
 			this.inputElement.value = fullAddress;
-			//const selected = new this.AddressFinder.AUSelectedAddress(fullAddress, metaData);
 			this._address_fullname = fullAddress;
 			this._address_line_1 = metaData.address_line_1;
 			this._address_line_2 = metaData.address_line_2;
@@ -142,18 +144,19 @@ export class AddressFinderAU implements ComponentFramework.StandardControl<IInpu
 			this._country = "Australia";
 			this._notifyOutputChanged();
 		});
-	}
+	};
 
-	public GetAddressFinderKeyandContinueCallBack(addressFinderKey: string | null) {		
+	public GetAddressFinderKeyandContinueCallBack(
+		addressFinderKey: string | null
+	) {
 		this.loadWidget(addressFinderKey);
 	}
 
-	/** 
+	/**
 	 * Called when the control is to be removed from the DOM tree. Controls should use this call for cleanup.
 	 * i.e. cancelling any pending remote calls, removing listeners, etc.
 	 */
-	public destroy(): void
-	{
+	public destroy(): void {
 		// Add code to cleanup control if necessary
 	}
 }
