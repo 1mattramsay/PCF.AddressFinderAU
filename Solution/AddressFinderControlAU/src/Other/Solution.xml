@@ -8,7 +8,7 @@
       <LocalizedName description="AddressFinderControlAU" languagecode="1033" />
     </LocalizedNames>
     <Descriptions />
-    <Version>1.0</Version>
+    <Version>1.0.0.2</Version>
     <!-- Solution Package Type: Unmanaged(0)/Managed(1)/Both(2)-->
     <Managed>2</Managed>
     <Publisher>
@@ -27,7 +27,7 @@
       <!-- Customization Prefix for the Cds Publisher-->
       <CustomizationPrefix>andz</CustomizationPrefix>
       <!-- Derived Option Value Prefix for the Customization Prefix of Cds Publisher -->
-      <CustomizationOptionValuePrefix>36869</CustomizationOptionValuePrefix>
+      <CustomizationOptionValuePrefix>44121</CustomizationOptionValuePrefix>
       <Addresses>
         <!-- Address of the Publisher-->
         <Address>

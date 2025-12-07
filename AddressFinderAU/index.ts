@@ -33,12 +33,15 @@ export class AddressFinderAU
 
 	private AddressFinder: any;
 
+	// eslint-disable-next-line no-undef
 	private _refreshData: EventListenerOrEventListenerObject;
 
 	private _domId: string;
 
+	
 	constructor() {
-		this.AddressFinder = require("./Widget");
+		// eslint-disable-next-line no-undef
+		this.AddressFinder = require("./Widget"); // eslint-disable-line no-undef
 	}
 
 	/**
