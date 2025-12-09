@@ -128,6 +128,7 @@ export class AddressFinderAU
 			{
 				address_params: {
 					source: "gnaf", // or "gnaf,paf" to search paf as well
+					state_codes: "VIC",
 				},
 				address_metadata_params: {
 					gps: "1",
