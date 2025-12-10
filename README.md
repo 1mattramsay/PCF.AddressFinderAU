@@ -16,11 +16,17 @@ This PCF Control will bind the full address to a specific field and map the gran
 
 Update the version in the xml file: `Solution/AddressFinderControlAU/Other/Solution.xml`
 
+Update the version in the xml file: `AddressFinderAU/ControlManifest.Input.xml`
+
 In the root folder
 
 `npm install`
 `npm build`
 
-Build a new release - replacing the version number in the file appropriately
+Build a new release - replacing the version number in the file appropriately (this will build and package a release)
 
-`pac solution pack --folder Solution/AddressFinderControlAU/src --zipFile ./Release/AddressFinderWidget_1_0_3.zip`
+`msbuild Solution\AddressFinderControlAU\AddressFinderControlAU.cdsproj /t:build /restore /p:configuration=Release`
+
+Copy the release binary into the Release folder:
+
+`cp .\Solution\AddressFinderControlAU\bin\Release\AddressFinderControlAU.zip .\Release\.`
