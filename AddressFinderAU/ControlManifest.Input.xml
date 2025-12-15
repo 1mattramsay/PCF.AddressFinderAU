@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="Andz" constructor="AddressFinderAU" version="1.0.3" display-name-key="AddressFinderAU" description-key="AddressFinder AU Data" control-type="standard">
+  <control namespace="Andz" constructor="AddressFinderAU" version="1.0.4" display-name-key="AddressFinderAU" description-key="AddressFinder AU Data" control-type="standard">
     <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
-    <property name="address_fullname" display-name-key="address_fullname" description-key="address_fullname" of-type="SingleLine.Text" usage="bound" required="true" /> 
-    <property name="address_line_1" display-name-key="address_line_1" description-key="address_line_1" of-type="SingleLine.Text" usage="bound" required="true" /> 
-    <property name="address_line_2" display-name-key="address_line_2" description-key="address_line_2" of-type="SingleLine.Text" usage="bound" required="true" /> 
+    <property name="address_fullname" display-name-key="address_fullname" description-key="address_fullname" of-type="SingleLine.Text" usage="bound" required="true" />
+    <property name="address_line_1" display-name-key="address_line_1" description-key="address_line_1" of-type="SingleLine.Text" usage="bound" required="true" />
+    <property name="address_line_2" display-name-key="address_line_2" description-key="address_line_2" of-type="SingleLine.Text" usage="bound" required="true" />
     <property name="state" display-name-key="state" description-key="state" of-type="SingleLine.Text" usage="bound" required="true" />
     <property name="suburb" display-name-key="suburb" description-key="suburb" of-type="SingleLine.Text" usage="bound" required="true" />
     <property name="postcode" display-name-key="postcode" description-key="postcode" of-type="SingleLine.Text" usage="bound" required="true" />
     <property name="country" display-name-key="country" description-key="country" of-type="SingleLine.Text" usage="bound" required="true" />
     <property name="afKey" display-name-key="Address Finder Key" description-key="Address Finder Key" of-type="SingleLine.Text" usage="input" required="true" />
-    <!-- 
-      Property node's of-type attribute can be of-type-group attribute. 
+    <property name="state_codes" display-name-key="State Codes" description-key="State codes to filter addresses (e.g. VIC, NSW, QLD). Leave empty for no filter." of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="source" display-name-key="Address Source" description-key="Address source to search (default: gnaf, or gnaf,paf to include PAF)" of-type="SingleLine.Text" usage="input" required="false" default-value="gnaf" />
+    <!--
+      Property node's of-type attribute can be of-type-group attribute.
       Example:
       <type-group name="numbers">
         <type>Whole.None</type>
