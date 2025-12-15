@@ -145,7 +145,7 @@ export class AddressFinderAU
           gps: "1",
         },
         max_results: 8,
-        ca: "MD365/1.1.0",
+        ca: "MD365/1.2.0",
       },
     );
     this.widget.on("result:select", (fullAddress: any, metaData: any) => {
